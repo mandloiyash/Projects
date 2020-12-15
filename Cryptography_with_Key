@@ -1,0 +1,38 @@
+import cryptography as cryptography
+
+from cryptography.fernet import Fernet
+# Put this somewhere safe!
+
+def generatepasskey():
+    key = Fernet.generate_key()
+    abc=open("PassowrdKey.key","wb")
+    abc.write(key)
+    abc.close()
+
+def getkey():
+    abc = open("PassowrdKey.key","rb")
+    key = abc.read()
+    abc.close()
+    return key
+
+def getContentFromUser():
+    return input("Enter Message : ")
+
+def encryptMessage(message):
+    key = getkey()
+    k = Fernet(key)
+    encrypted_message= k.encrypt(message)
+    return encrypted_message
+def decryptMessage(encryptMsg):
+    key = getkey()
+    k = Fernet(key)
+    decrypted_Message = k.decrypt(encryptMsg)
+    return decrypted_Message
+
+if __name__ == '__main__':
+    generatepasskey()
+    message =  getContentFromUser()
+    encrypt = encryptMessage(message.encode())
+    print(encrypt)
+    decrypt = decryptMessage(encrypt)
+    print(decrypt)
